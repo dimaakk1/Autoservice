@@ -1,5 +1,6 @@
 
 using Autoservice.DAL.Data;
+using Autoservice.DAL.Seeders;
 using Microsoft.EntityFrameworkCore;
 
 namespace Autoservice.API
@@ -34,6 +35,13 @@ namespace Autoservice.API
 
 
             app.MapControllers();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<AppDbContext>();
+                DbInitializer.Seed(context);
+            }
 
             app.Run();
         }
