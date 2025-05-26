@@ -1,5 +1,7 @@
 
 using Autoservice.DAL.Data;
+using Autoservice.DAL.Repositories.Interfaces;
+using Autoservice.DAL.Repositories;
 using Autoservice.DAL.Seeders;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +16,14 @@ namespace Autoservice.API
             // Add services to the container.
             builder.Services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            builder.Services.AddScoped<IClientRepository, ClientRepository>();
+            builder.Services.AddScoped<ICarRepository, CarRepository>();
+            builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            builder.Services.AddScoped<IRecordRepository, RecordRepository>();
+
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
