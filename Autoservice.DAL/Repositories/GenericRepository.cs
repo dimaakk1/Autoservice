@@ -45,9 +45,5 @@ namespace Autoservice.DAL.Repositories
             _dbSet.Remove(entity);
         }
 
-        public async Task SaveChangesAsync()
-        {
-            await _context.SaveChangesAsync();
-        }
     }
 }

@@ -1,0 +1,61 @@
+﻿using AutoMapper;
+using Autoservice.BLL.DTO;
+using Autoservice.BLL.Services.Interfaces;
+using Autoservice.DAL.Entities;
+using Autoservice.DAL.UOW;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Autoservice.BLL.Services
+{
+    public class ClientService : IClientService
+    {
+        private readonly IUnitOfWork _unit;
+        private readonly IMapper _mapper;
+
+        public ClientService(IUnitOfWork unit, IMapper mapper)
+        {
+            _unit = unit;
+            _mapper = mapper;
+        }
+
+        public async Task<IEnumerable<ClientDto>> GetAllAsync()
+        {
+            var clients = await _unit.Clients.GetAllAsync();
+            return _mapper.Map<IEnumerable<ClientDto>>(clients);
+        }
+
+        public async Task<ClientDto> GetByIdAsync(int id)
+        {
+            var client = await _unit.Clients.GetByIdAsync(id);
+            return _mapper.Map<ClientDto>(client);
+        }
+
+        public async Task AddAsync(ClientDto dto)
+        {
+            var client = _mapper.Map<Client>(dto);
+            await _unit.Clients.AddAsync(client);
+            await _unit.CompleteAsync();
+        }
+
+        public async Task UpdateAsync(ClientDto dto)
+        {
+            var client = _mapper.Map<Client>(dto);
+            _unit.Clients.Update(client);
+            await _unit.CompleteAsync();
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var client = await _unit.Clients.GetByIdAsync(id);
+            if (client != null)
+            {
+                _unit.Clients.Delete(client);
+                await _unit.CompleteAsync();
+            }
+        }
+    }
+}

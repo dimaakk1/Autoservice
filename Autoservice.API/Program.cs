@@ -4,6 +4,10 @@ using Autoservice.DAL.Repositories.Interfaces;
 using Autoservice.DAL.Repositories;
 using Autoservice.DAL.Seeders;
 using Microsoft.EntityFrameworkCore;
+using Autoservice.DAL.UOW;
+using Autoservice.BLL.Automapper;
+using Autoservice.BLL.Services.Interfaces;
+using Autoservice.BLL.Services;
 
 namespace Autoservice.API
 {
@@ -23,6 +27,14 @@ namespace Autoservice.API
             builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             builder.Services.AddScoped<IRecordRepository, RecordRepository>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IClientService, ClientService>();
+            builder.Services.AddScoped<ICarService, CarService>();
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+            builder.Services.AddScoped<IServiceService, ServiceService>();
+            builder.Services.AddScoped<IRecordService, RecordService>();
+
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 
             builder.Services.AddControllers();

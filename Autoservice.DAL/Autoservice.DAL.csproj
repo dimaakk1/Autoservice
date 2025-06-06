@@ -16,8 +16,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Autoservice.BLL\Autoservice.BLL.csproj" />
-  </ItemGroup>
-
 </Project>
