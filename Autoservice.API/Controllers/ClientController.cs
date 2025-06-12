@@ -1,6 +1,8 @@
 ﻿using Autoservice.BLL.DTO;
+using Autoservice.BLL.Services;
 using Autoservice.BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Autoservice.BLL.DTO.HelpDTO;
 
 namespace Autoservice.API.Controllers
 {
@@ -75,6 +77,18 @@ namespace Autoservice.API.Controllers
 
             await _service.DeleteAsync(id);
             return NoContent();
+        }
+
+        [HttpGet("with-records")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetClientsWithRecords() => Ok(await _service.GetClientsWithRecordsAsync());
+
+        [HttpGet("paged")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Search([FromQuery] ClientQueryParameters parameters)
+        {
+            var result = await _service.GetPagedAsync(parameters);
+            return Ok(result);
         }
     }
 

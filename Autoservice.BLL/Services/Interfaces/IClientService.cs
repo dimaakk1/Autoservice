@@ -1,4 +1,5 @@
 ﻿using Autoservice.BLL.DTO;
+using Autoservice.BLL.DTO.HelpDTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,8 @@ namespace Autoservice.BLL.Services.Interfaces
         Task AddAsync(ClientDto dto);
         Task UpdateAsync(ClientDto dto);
         Task DeleteAsync(int id);
+        Task<IEnumerable<ClientDto>> GetClientsWithRecordsAsync();
+        Task<IEnumerable<ClientDto>> GetPagedAsync(ClientQueryParameters parameters);
+
     }
 }

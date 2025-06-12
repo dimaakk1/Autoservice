@@ -1,4 +1,5 @@
 ﻿using Autoservice.BLL.DTO;
+using Autoservice.BLL.DTO.HelpDTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,7 @@ namespace Autoservice.BLL.Services.Interfaces
         Task AddAsync(EmployeeDto dto);
         Task UpdateAsync(EmployeeDto dto);
         Task DeleteAsync(int id);
+        Task<IEnumerable<EmployeeDto>> GetEmployeesByPositionAsync(string position);
+        Task<IEnumerable<EmployeeDto>> GetPagedAsync(EmployeeQueryParameters parameters);
     }
 }

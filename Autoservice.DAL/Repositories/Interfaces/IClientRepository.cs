@@ -9,6 +9,6 @@ namespace Autoservice.DAL.Repositories.Interfaces
 {
     public interface IClientRepository : IGenericRepository<Client>
     {
-        Task<Client> GetClientWithRecordsAsync(int clientId);
+        Task<IEnumerable<Client>> GetClientWithRecordsAsync();
     }
 }

@@ -1,4 +1,6 @@
 ﻿using Autoservice.BLL.DTO;
+using Autoservice.BLL.DTO.HelpDTO;
+using Autoservice.BLL.Services;
 using Autoservice.BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -58,6 +60,17 @@ namespace Autoservice.API.Controllers
 
             await _service.DeleteAsync(id);
             return NoContent();
+        }
+
+        [HttpGet("by-position/{position}")]
+        public async Task<IActionResult> GetByPosition(string position) => Ok(await _service.GetEmployeesByPositionAsync(position));
+
+        [HttpGet("paged")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Search([FromQuery] EmployeeQueryParameters parameters)
+        {
+            var result = await _service.GetPagedAsync(parameters);
+            return Ok(result);
         }
     }
 

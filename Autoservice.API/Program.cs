@@ -8,6 +8,11 @@ using Autoservice.DAL.UOW;
 using Autoservice.BLL.Automapper;
 using Autoservice.BLL.Services.Interfaces;
 using Autoservice.BLL.Services;
+using FluentValidation;
+using Autoservice.BLL.Validator;
+using Autoservice.DAL.Entities;
+using FluentValidation.AspNetCore;
+using Autoservice.BLL.DTO;
 
 namespace Autoservice.API
 {
@@ -41,6 +46,14 @@ namespace Autoservice.API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddFluentValidationAutoValidation();
+            builder.Services.AddScoped<IValidator<ClientDto>, ClientDtoValidator>();
+            builder.Services.AddScoped<IValidator<CarDto>, CarDtoValidator>();
+            builder.Services.AddScoped<IValidator<EmployeeDto>, EmployeeDtoValidator>();
+            builder.Services.AddScoped<IValidator<ServiceDto>, ServiceDtoValidator>();
+            builder.Services.AddScoped<IValidator<RecordDto>, RecordDtoValidator>();
+
 
             var app = builder.Build();
 

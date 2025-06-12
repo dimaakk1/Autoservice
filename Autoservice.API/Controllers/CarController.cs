@@ -1,5 +1,7 @@
 ﻿using Autoservice.BLL.DTO;
+using Autoservice.BLL.Services;
 using Autoservice.BLL.Services.Interfaces;
+using Autoservice.BLL.DTO.HelpDTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Autoservice.API.Controllers
@@ -72,6 +74,18 @@ namespace Autoservice.API.Controllers
 
             await _service.DeleteAsync(id);
             return NoContent();
+        }
+
+        [HttpGet("by-brand/{brand}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetByBrand(string brand) => Ok(await _service.GetCarsByBrandAsync(brand));
+
+        [HttpGet("paged")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Search([FromQuery] CarQueryParameters parameters)
+        {
+            var result = await _service.GetPagedAsync(parameters);
+            return Ok(result);
         }
     }
 

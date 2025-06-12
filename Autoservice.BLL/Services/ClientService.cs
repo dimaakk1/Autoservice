@@ -2,6 +2,7 @@
 using Autoservice.BLL.DTO;
 using Autoservice.BLL.Services.Interfaces;
 using Autoservice.DAL.Entities;
+using Autoservice.BLL.DTO.HelpDTO;
 using Autoservice.DAL.UOW;
 using System;
 using System.Collections.Generic;
@@ -57,5 +58,36 @@ namespace Autoservice.BLL.Services
                 await _unit.CompleteAsync();
             }
         }
+
+        public async Task<IEnumerable<ClientDto>> GetClientsWithRecordsAsync()
+        {
+            var clients = await _unit.Clients.GetClientWithRecordsAsync();
+            return _mapper.Map<IEnumerable<ClientDto>>(clients);
+        }
+
+        public async Task<IEnumerable<ClientDto>> GetPagedAsync(ClientQueryParameters parameters)
+        {
+            var query = await _unit.Clients.GetAllAsync();
+
+            if (!string.IsNullOrEmpty(parameters.FullName))
+                query = query.Where(c => c.FullName.Contains(parameters.FullName, StringComparison.OrdinalIgnoreCase));
+
+            query = parameters.SortBy?.ToLower() switch
+            {
+                "fullname" => parameters.Descending ? query.OrderByDescending(c => c.FullName) : query.OrderBy(c => c.FullName),
+                "clientid" => parameters.Descending ? query.OrderByDescending(c => c.ClientId) : query.OrderBy(c => c.ClientId),
+                _ => query.OrderBy(c => c.ClientId)
+            };
+
+            var skip = (parameters.PageNumber - 1) * parameters.PageSize;
+            query = query.Skip(skip).Take(parameters.PageSize);
+
+            return query.Select(c => new ClientDto
+            {
+                ClientId = c.ClientId,
+                FullName = c.FullName
+            });
+        }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Autoservice.BLL.DTO;
+using Autoservice.BLL.DTO.HelpDTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,8 @@ namespace Autoservice.BLL.Services.Interfaces
         Task AddAsync(CarDto dto);
         Task UpdateAsync(CarDto dto);
         Task DeleteAsync(int id);
+        Task<IEnumerable<CarDto>> GetCarsByBrandAsync(string brand);
+        Task<IEnumerable<CarDto>> GetPagedAsync(CarQueryParameters parameters);
+
     }
 }

@@ -2,6 +2,7 @@
 using Autoservice.BLL.DTO;
 using Autoservice.BLL.Services.Interfaces;
 using Autoservice.DAL.Entities;
+using Autoservice.BLL.DTO.HelpDTO;
 using Autoservice.DAL.UOW;
 using System;
 using System.Collections.Generic;
@@ -48,6 +49,34 @@ namespace Autoservice.BLL.Services
                 _unit.Employees.Delete(e);
                 await _unit.CompleteAsync();
             }
+        }
+
+        public async Task<IEnumerable<EmployeeDto>> GetEmployeesByPositionAsync(string position)
+        {
+            var result = await _unit.Employees.GetEmployeesByPositionAsync(position);
+            return _mapper.Map<IEnumerable<EmployeeDto>>(result);
+        }
+
+        public async Task<IEnumerable<EmployeeDto>> GetPagedAsync(EmployeeQueryParameters parameters)
+        {
+            var employees = await _unit.Employees.GetAllAsync();
+            var query = employees.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(parameters.FullName))
+                query = query.Where(e => e.FullName.Contains(parameters.FullName));
+            if (!string.IsNullOrWhiteSpace(parameters.Position))
+                query = query.Where(e => e.Position.Contains(parameters.Position));
+
+            query = parameters.SortBy?.ToLower() switch
+            {
+                "fullname" => parameters.Descending ? query.OrderByDescending(e => e.FullName) : query.OrderBy(e => e.FullName),
+                "position" => parameters.Descending ? query.OrderByDescending(e => e.Position) : query.OrderBy(e => e.Position),
+                _ => query
+            };
+
+            query = query.Skip((parameters.PageNumber - 1) * parameters.PageSize).Take(parameters.PageSize);
+
+            return query.Select(e => new EmployeeDto { EmployeeId = e.EmployeeId, FullName = e.FullName, Position = e.Position }).ToList();
         }
     }
 

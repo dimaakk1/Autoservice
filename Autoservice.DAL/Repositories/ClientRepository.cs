@@ -15,12 +15,11 @@ namespace Autoservice.DAL.Repositories
         public ClientRepository(AppDbContext context) : base(context) 
         { 
         }
-
-        public async Task<Client> GetClientWithRecordsAsync(int clientId)
+        public async Task<IEnumerable<Client>> GetClientWithRecordsAsync()
         {
             return await _dbSet
                 .Include(c => c.Records)
-                .FirstOrDefaultAsync(c => c.ClientId == clientId);
+                .ToListAsync();
         }
     }
 }
