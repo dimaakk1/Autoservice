@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35004.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autoservice.API", "Autoservice.API\Autoservice.API.csproj", "{20A0CC2A-C797-429A-99A3-7CA1046ADE63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autoservice.API", "Autoservice.API\Autoservice.API.csproj", "{20A0CC2A-C797-429A-99A3-7CA1046ADE63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autoservice.BLL", "Autoservice.BLL\Autoservice.BLL.csproj", "{E5EAD0E9-705C-4738-BD04-89699D6356A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autoservice.BLL", "Autoservice.BLL\Autoservice.BLL.csproj", "{E5EAD0E9-705C-4738-BD04-89699D6356A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autoservice.DAL", "Autoservice.DAL\Autoservice.DAL.csproj", "{DD9B4EFB-880D-46E3-A319-4BF9B34C7FF2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autoservice.DAL", "Autoservice.DAL\Autoservice.DAL.csproj", "{DD9B4EFB-880D-46E3-A319-4BF9B34C7FF2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

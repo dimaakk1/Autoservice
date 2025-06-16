@@ -1,0 +1,6 @@
+@Autoservice.JWT_HostAddress = http://localhost:5133
+
+GET {{Autoservice.JWT_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

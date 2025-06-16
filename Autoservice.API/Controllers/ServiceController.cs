@@ -3,9 +3,11 @@ using Autoservice.BLL.Services;
 using Autoservice.BLL.Services.Interfaces;
 using Autoservice.BLL.DTO.HelpDTO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Autoservice.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ServiceController : ControllerBase
@@ -27,6 +29,7 @@ namespace Autoservice.API.Controllers
             return result == null ? NotFound() : Ok(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ServiceDto dto)
         {
@@ -51,6 +54,7 @@ namespace Autoservice.API.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

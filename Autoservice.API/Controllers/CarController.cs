@@ -3,9 +3,11 @@ using Autoservice.BLL.Services;
 using Autoservice.BLL.Services.Interfaces;
 using Autoservice.BLL.DTO.HelpDTO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Autoservice.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class CarController : ControllerBase
@@ -16,7 +18,7 @@ namespace Autoservice.API.Controllers
         {
             _service = service;
         }
-
+        
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
@@ -33,7 +35,7 @@ namespace Autoservice.API.Controllers
             var car = await _service.GetByIdAsync(id);
             return car == null ? NotFound() : Ok(car);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -63,6 +65,7 @@ namespace Autoservice.API.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

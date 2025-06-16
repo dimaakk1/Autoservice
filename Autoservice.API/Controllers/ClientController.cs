@@ -3,9 +3,11 @@ using Autoservice.BLL.Services;
 using Autoservice.BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Autoservice.BLL.DTO.HelpDTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Autoservice.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ClientController : ControllerBase
@@ -37,6 +39,7 @@ namespace Autoservice.API.Controllers
             return Ok(client);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -66,6 +69,7 @@ namespace Autoservice.API.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

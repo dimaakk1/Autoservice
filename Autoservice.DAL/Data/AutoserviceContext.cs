@@ -1,4 +1,5 @@
 ﻿using Autoservice.DAL.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Autoservice.DAL.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
@@ -18,8 +19,11 @@ namespace Autoservice.DAL.Data
         public DbSet<Service> Services { get; set; }
         public DbSet<Record> Records { get; set; }
 
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Record>()
                 .HasOne(r => r.Client)
                 .WithMany(c => c.Records)
@@ -39,6 +43,11 @@ namespace Autoservice.DAL.Data
                 .HasOne(s => s.Employee)
                 .WithMany(e => e.Services)
                 .HasForeignKey(s => s.EmployeeId);
+
+            modelBuilder.Entity<RefreshToken>()
+                   .HasOne(r => r.User)
+                   .WithMany(u => u.RefreshTokens)
+                   .HasForeignKey(r => r.UserId);
         }
     }
 }
