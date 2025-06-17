@@ -90,6 +90,15 @@ namespace Autoservice.API.Controllers
             var result = await _service.GetPagedAsync(parameters);
             return Ok(result);
         }
+
+        [HttpGet("test-error")]
+        public IActionResult TestError()
+        {
+            string test = null;
+            var length = test.Length; 
+
+            return Ok();
+        }
     }
 
 }

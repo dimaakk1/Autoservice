@@ -18,6 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
+using Autoservice.API.Middleware;
 
 namespace Autoservice.API
 {
@@ -58,6 +59,7 @@ namespace Autoservice.API
             builder.Services.AddScoped<IValidator<EmployeeDto>, EmployeeDtoValidator>();
             builder.Services.AddScoped<IValidator<ServiceDto>, ServiceDtoValidator>();
             builder.Services.AddScoped<IValidator<RecordDto>, RecordDtoValidator>();
+
             ////////////////////////////////////////////////////////////////////////
             builder.Services.AddScoped<JwtService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
@@ -133,6 +135,7 @@ namespace Autoservice.API
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseGlobalExceptionHandler();
 
 
             app.MapControllers();
