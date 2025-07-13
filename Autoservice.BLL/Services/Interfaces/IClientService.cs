@@ -13,7 +13,7 @@ namespace Autoservice.BLL.Services.Interfaces
         Task<IEnumerable<ClientDto>> GetAllAsync();
         Task<ClientDto> GetByIdAsync(int id);
         Task AddAsync(ClientDto dto);
-        Task UpdateAsync(ClientDto dto);
+        Task UpdateAsync(int id, ClientUpdateDto dto);
         Task DeleteAsync(int id);
         Task<IEnumerable<ClientDto>> GetClientsWithRecordsAsync();
         Task<IEnumerable<ClientDto>> GetPagedAsync(ClientQueryParameters parameters);

@@ -14,7 +14,7 @@ namespace Autoservice.BLL.Services.Interfaces
         Task<IEnumerable<ServiceDto>> GetAllAsync();
         Task<ServiceDto> GetByIdAsync(int id);
         Task AddAsync(ServiceDto dto);
-        Task UpdateAsync(ServiceDto dto);
+        Task UpdateAsync(int id, ServiceUpdateDto dto);
         Task DeleteAsync(int id);
         Task<IEnumerable<ServiceDto>> GetServicesByEmployeeAsync(int employeeId);
         Task<IEnumerable<ServiceDto>> GetPagedAsync(ServiceQueryParameters parameters);

@@ -59,6 +59,11 @@ namespace Autoservice.API
             builder.Services.AddScoped<IValidator<EmployeeDto>, EmployeeDtoValidator>();
             builder.Services.AddScoped<IValidator<ServiceDto>, ServiceDtoValidator>();
             builder.Services.AddScoped<IValidator<RecordDto>, RecordDtoValidator>();
+            builder.Services.AddScoped<IValidator<ClientUpdateDto>, ClientUpdateDtoValidator>();
+            builder.Services.AddScoped<IValidator<CarUpdateDto>, CarUpdateDtoValidator>();
+            builder.Services.AddScoped<IValidator<EmployeeUpdateDto>, EmployeeUpdateDtoValidator>();
+            builder.Services.AddScoped<IValidator<ServiceUpdateDto>, ServiceUpdateDtoValidator>();
+            builder.Services.AddScoped<IValidator<RecordUpdateDto>, RecordUpdateDtoValidator>();
 
             ////////////////////////////////////////////////////////////////////////
             builder.Services.AddScoped<JwtService>();

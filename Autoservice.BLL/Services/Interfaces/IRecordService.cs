@@ -14,7 +14,7 @@ namespace Autoservice.BLL.Services.Interfaces
         Task<IEnumerable<RecordDto>> GetAllAsync();
         Task<RecordDto> GetByIdAsync(int id);
         Task AddAsync(RecordDto dto);
-        Task UpdateAsync(RecordDto dto);
+        Task UpdateAsync(int id, RecordUpdateDto dto);
         Task DeleteAsync(int id);
         Task<IEnumerable<RecordDto>> GetRecordsByDateAsync(DateTime date);
         Task<IEnumerable<RecordDto>> GetPagedAsync(RecordQueryParameters parameters);

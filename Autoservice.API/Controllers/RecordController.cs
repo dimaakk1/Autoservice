@@ -29,7 +29,6 @@ namespace Autoservice.API.Controllers
             return result == null ? NotFound() : Ok(result);
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] RecordDto dto)
         {
@@ -40,17 +39,11 @@ namespace Autoservice.API.Controllers
             return StatusCode(201);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] RecordDto dto)
+        public async Task<IActionResult> Update(int id, [FromBody] RecordUpdateDto dto)
         {
-            if (id != dto.RecordId)
-                return BadRequest();
-
-            var exists = await _service.GetByIdAsync(id);
-            if (exists == null)
-                return NotFound();
-
-            await _service.UpdateAsync(dto);
+            await _service.UpdateAsync(id, dto);
             return NoContent();
         }
 
@@ -70,7 +63,6 @@ namespace Autoservice.API.Controllers
         public async Task<IActionResult> GetByDate(DateTime date) => Ok(await _service.GetRecordsByDateAsync(date));
 
         [HttpGet("paged")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Search([FromQuery] RecordQueryParameters parameters)
         {
             var result = await _service.GetPagedAsync(parameters);

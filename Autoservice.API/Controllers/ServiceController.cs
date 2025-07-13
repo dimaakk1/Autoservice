@@ -40,17 +40,11 @@ namespace Autoservice.API.Controllers
             return StatusCode(201);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] ServiceDto dto)
+        public async Task<IActionResult> Update(int id, [FromBody] ServiceUpdateDto dto)
         {
-            if (id != dto.ServiceId)
-                return BadRequest();
-
-            var exists = await _service.GetByIdAsync(id);
-            if (exists == null)
-                return NotFound();
-
-            await _service.UpdateAsync(dto);
+            await _service.UpdateAsync(id, dto);
             return NoContent();
         }
 
@@ -70,7 +64,6 @@ namespace Autoservice.API.Controllers
         public async Task<IActionResult> GetByEmployeeAsync(int employeeId) => Ok(await _service.GetServicesByEmployeeAsync(employeeId));
 
         [HttpGet("paged")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Search([FromQuery] ServiceQueryParameters parameters)
         {
             var result = await _service.GetPagedAsync(parameters);

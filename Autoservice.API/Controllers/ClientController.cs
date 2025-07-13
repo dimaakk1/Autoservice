@@ -20,7 +20,6 @@ namespace Autoservice.API.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
             var result = await _service.GetAllAsync();
@@ -28,8 +27,6 @@ namespace Autoservice.API.Controllers
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int id)
         {
             var client = await _service.GetByIdAsync(id);
@@ -39,10 +36,7 @@ namespace Autoservice.API.Controllers
             return Ok(client);
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create([FromBody] ClientDto dto)
         {
             if (!ModelState.IsValid)
@@ -52,27 +46,16 @@ namespace Autoservice.API.Controllers
             return StatusCode(201);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Update(int id, [FromBody] ClientDto dto)
+        public async Task<IActionResult> Update(int id, [FromBody] ClientUpdateDto dto)
         {
-            if (id != dto.ClientId)
-                return BadRequest("ID mismatch.");
-
-            var existing = await _service.GetByIdAsync(id);
-            if (existing == null)
-                return NotFound();
-
-            await _service.UpdateAsync(dto);
+            await _service.UpdateAsync(id, dto);
             return NoContent();
         }
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(int id)
         {
             var existing = await _service.GetByIdAsync(id);
@@ -84,11 +67,9 @@ namespace Autoservice.API.Controllers
         }
 
         [HttpGet("with-records")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetClientsWithRecords() => Ok(await _service.GetClientsWithRecordsAsync());
 
         [HttpGet("paged")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Search([FromQuery] ClientQueryParameters parameters)
         {
             var result = await _service.GetPagedAsync(parameters);

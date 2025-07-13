@@ -35,9 +35,18 @@ namespace Autoservice.BLL.Services
             await _unit.CompleteAsync();
         }
 
-        public async Task UpdateAsync(EmployeeDto dto)
+        public async Task UpdateAsync(int id, EmployeeUpdateDto dto)
         {
-            _unit.Employees.Update(_mapper.Map<Employee>(dto));
+            var existing = await _unit.Employees.GetByIdAsync(id);
+
+            if (existing == null)
+            {
+                throw new Exception("Not found");
+            }
+
+            existing.FullName = dto.FullName;
+            existing.Position = dto.Position;
+            _unit.Employees.Update(existing);
             await _unit.CompleteAsync();
         }
 

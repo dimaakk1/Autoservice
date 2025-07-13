@@ -42,10 +42,17 @@ namespace Autoservice.BLL.Services
             await _unit.CompleteAsync();
         }
 
-        public async Task UpdateAsync(ClientDto dto)
+        public async Task UpdateAsync(int id, ClientUpdateDto dto)
         {
-            var client = _mapper.Map<Client>(dto);
-            _unit.Clients.Update(client);
+            var existing = await _unit.Clients.GetByIdAsync(id);
+
+            if (existing == null)
+            {
+                throw new Exception("Not found");
+            }
+
+            existing.FullName = dto.FullName;
+            _unit.Clients.Update(existing);
             await _unit.CompleteAsync();
         }
 

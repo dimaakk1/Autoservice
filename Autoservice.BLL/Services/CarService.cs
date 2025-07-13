@@ -35,9 +35,19 @@ namespace Autoservice.BLL.Services
             await _unit.CompleteAsync();
         }
 
-        public async Task UpdateAsync(CarDto dto)
+        public async Task UpdateAsync(int id, CarUpdateDto dto)
         {
-            _unit.Cars.Update(_mapper.Map<Car>(dto));
+            var existing = await _unit.Cars.GetByIdAsync(id);
+
+            if (existing == null)
+            {
+                throw new Exception("Not found");
+            }
+
+            existing.Brand = dto.Brand;
+            existing.Year = dto.Year;
+
+            _unit.Cars.Update(existing);
             await _unit.CompleteAsync();
         }
 
